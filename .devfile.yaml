@@ -13,26 +13,19 @@ components:
           value: ":99"
 
 commands:
-  # Start Xvfb so JavaFX can open windows
   - id: start-xvfb
     exec:
       component: tools
       commandLine: |
         Xvfb :99 -screen 0 1024x768x16 &
-      group:
-        kind: init
 
-  # Configure Git identity using environment variables
   - id: configure-git
     exec:
       component: tools
       commandLine: |
         if [ -n "$GIT_USER_NAME" ]; then git config --global user.name "$GIT_USER_NAME"; fi
         if [ -n "$GIT_USER_EMAIL" ]; then git config --global user.email "$GIT_USER_EMAIL"; fi
-      group:
-        kind: init
 
-  # Optional: Add a run command for JavaFX
   - id: run-javafx
     exec:
       component: tools
@@ -40,3 +33,4 @@ commands:
       workingDir: ${PROJECT_SOURCE}
       group:
         kind: run
+
