@@ -11,38 +11,14 @@ components:
       env:
         - name: DISPLAY
           value: ":99"
-
-commands:
-  - id: start-xvfb
-    exec:
-      component: tools
-      commandLine: |
-        Xvfb :99 -screen 0 1024x768x16 &
-
-  - id: configure-git
-    exec:
-      component: tools
-      commandLine: |
-        if [ -n "$GIT_USER_NAME" ]; then git config --global user.name "$GIT_USER_NAME"; fi
-        if [ -n "$GIT_USER_EMAIL" ]; then git config --global user.email "$GIT_USER_EMAIL"; fi
-  
-  - id: init-all
-    composite:
-      commands:
-        - start-xvfb
-        - configure-git
-      parallel: false
-      
-  - id: run-javafx
-    exec:
-      component: tools
-      commandLine: "mvn clean javafx:run"
-      workingDir: ${PROJECT_SOURCE}
-      group:
-        kind: run
-
-events:
-  preStart:
-    - init-all
+      command:
+        - /bin/bash
+        - -c
+      args:
+        - |
+          # Start Xvfb
+          Xvfb :99 -screen 0 1024x768x16 &
+          # Start the normal UDI entrypoint
+          /entrypoint.sh
 
 
