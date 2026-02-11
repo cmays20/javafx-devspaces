@@ -34,3 +34,9 @@ commands:
       group:
         kind: run
 
+events:
+  preStart:
+    - start-xvfb
+    - configure-git
+
+
